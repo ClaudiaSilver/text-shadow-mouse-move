@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+// How to dynamically update the style of a tag depending on mouse location
+// 1. Listen for mousemove event on hero
+// 2. Figure out where to put shadow
+
+  const hero = document.querySelector('.hero');
+  const text = document.querySelector('h1');
+  const walk = 100; // 100px
+
+  function shadow(e) {
+    // const width = hero.offsetWidth;
+    // const height = hero.offsetHeight;
+    //or in one line using destructuring:
+    const { offsetWidth: width, offsetHeight: height } = hero; // gets the dimensions of what we're hovering over
+    let { offsetX: x, offsetY: y } = e; // get position of cursor
+    
+    // console.log(this, e.target);
+
+    // For nested children; if event target isn't hero (this = hero), do this:
+    if(this !== e.target) {
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+    // How far should the shadow go?
+    const xWalk = Math.round((x / width * walk) - (walk / 2)); 
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+    console.log(xWalk, yWalk);// from -50 to 50
+
+    text.style.textShadow = `${xWalk}px ${yWalk}px 0 red`;
+  }
+
+  hero.addEventListener('mousemove', shadow);
+
+</script>
+</body>
+</html>
